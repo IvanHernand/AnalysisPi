@@ -104,12 +104,17 @@ bool Analysis2010_2::Init(EventClass &E, HistogramFactory &H, ConfigFile &Conf, 
 	CB		        = Conf.read<double>("Analysis2010/CB");
 	TrReco.Init(Conf);
 
+          H.DefineTH2D( "EnergySpectrum","WC12_proTg","", 200, -30.0,30.0,200,-30.0,30.0);((TH2D*)gDirectory->Get("WC12_proTg"))->Sumw2();
+	  
+          H.DefineTH2D( "EnergySpectrum","S12_proTg","", 200, -30.0,30.0,200,-30.0,30.0);((TH2D*)gDirectory->Get("S12_proTg"))->Sumw2();
 
+          H.DefineTH2D( "EnergySpectrum","WCS3_proTg","", 200, -30.0,30.0,200,-30.0,30.0);((TH2D*)gDirectory->Get("WCS3_proTg"))->Sumw2();
 
-        // WC3
+	  H.DefineTH2D( "EnergySpectrum","WC12_proTg_0","", 200, -30.0,30.0,200,-30.0,30.0);((TH2D*)gDirectory->Get("WC12_proTg_0"))->Sumw2();
+	  
+          H.DefineTH2D( "EnergySpectrum","S12_proTg_0","", 200, -30.0,30.0,200,-30.0,30.0);((TH2D*)gDirectory->Get("S12_proTg_0"))->Sumw2();
 
-        H.DefineTH1D( "EnergySpectrum","WC3_0","", 500,0.0,100.0);((TH1D*)gDirectory->Get(file_temp))->Sumw2();
-        H.DefineTH1D( "EnergySpectrum","WC3","", 500,0.0,100.0);((TH1D*)gDirectory->Get(file_temp))->Sumw2();
+          H.DefineTH2D( "EnergySpectrum","WCS3_proTg_0","", 200, -30.0,30.0,200,-30.0,30.0);((TH2D*)gDirectory->Get("WCS3_proTg_0"))->Sumw2();
 
 	for(int i=1; i<=4; i++){
 
@@ -121,6 +126,9 @@ bool Analysis2010_2::Init(EventClass &E, HistogramFactory &H, ConfigFile &Conf, 
 	  sprintf(file_temp,"PileupB1_%i",i);
           H.DefineTH1D( "EnergySpectrum",file_temp,"", 400,0.0,2.0);((TH1D*)gDirectory->Get(file_temp))->Sumw2();
 
+	  sprintf(file_temp,"PileupB1_%i_t",i);
+          H.DefineTH1D( "EnergySpectrum",file_temp,"", 400,0.0,2.0);((TH1D*)gDirectory->Get(file_temp))->Sumw2();
+
 	  // B2
 
 	  sprintf(file_temp,"PileupB2_%i_0",i);
@@ -129,9 +137,10 @@ bool Analysis2010_2::Init(EventClass &E, HistogramFactory &H, ConfigFile &Conf, 
 	  sprintf(file_temp,"PileupB2_%i",i);
           H.DefineTH1D( "EnergySpectrum",file_temp,"", 400,0.0,2.0);((TH1D*)gDirectory->Get(file_temp))->Sumw2();
 
+	  sprintf(file_temp,"PileupB2_%i_t",i);
+          H.DefineTH1D( "EnergySpectrum",file_temp,"", 400,0.0,2.0);((TH1D*)gDirectory->Get(file_temp))->Sumw2();
+
 	}
-	
-	
 		
     return true;
 }
@@ -144,7 +153,7 @@ bool Analysis2010_2::Process(EventClass &E, HistogramFactory &H)
   
   PTrack& trkWC12 = E.trks[0].GetTrk(0);
   PTrack& trkS12  = E.trks[1].GetTrk(0); 
-  //PTrack& trkWC3  = E.trks[2].GetTrk(0);
+  PTrack& trkWC3  = E.trks[2].GetTrk(0);
   
   //////////////////////////////////////////////////////////////////////////////////
 
@@ -154,6 +163,7 @@ bool Analysis2010_2::Process(EventClass &E, HistogramFactory &H)
   double zB2 = -31.55;
   double B2_X = 999.;
   double B2_Y = 999.;
+  double zPro = 0.0;
 
   double TAcc  = 999;
   double xWC3 = 999;
@@ -248,7 +258,7 @@ bool Analysis2010_2::Process(EventClass &E, HistogramFactory &H)
      }
 
   //2009 Ivan
-  if(E.runNo>=57418 && E.runNo<61179)   {
+  if(E.runNo>=10025 && E.runNo<25750)   {
       x_low = -18;  x_high = 22;
       y_low = -15;  y_high = 19;
       // prompt_low = -4399; prompt_high = -4380; //T1prompt, TrCons
@@ -703,70 +713,6 @@ bool Analysis2010_2::Process(EventClass &E, HistogramFactory &H)
   }
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
-  
-  //Section for diagnostics
-    // if (data_integrity &&
-    // 	//pion_trigger &&
-    // 	trigger &&
-    //   Pileup &&
-    //   T1Pileup &&
-    //   PrePileup && 
-    //   WC12 && 
-    //   proton &&
-    //   B1prompt && 
-    //   T1prompt && 
-    //   TrCons && 
-    //   trigcut && 
-    //   T1T2coinc &&
-    //   //pihitcut &&
-    //   muhitcut
-    //   ){
-      
-    // }
-  //apply all standard cuts
-    // if (data_integrity &&
-  //     pion_trigger &&
-  //     Pileup &&
-  //     T1Pileup &&
-  //     PrePileup && 
-  //     WC12 && 
-  //     proton &&
-  //     B1prompt && 
-  //     T1prompt && 
-  //     TrCons && 
-  //     trigcut && 
-  //     T1T2coinc &&
-  //     //pihitcut &&
-  //     muhitcut
-  //     ){
-  //   H.Fill("TAcc",TAcc);
-  //   if(Post) {
-  //     D3_PE(tsPE,Ecal);
-  //     D3_TIGC(tsH,Ecal);
-  //     D3_PE(tsPE_Bina,E.Cal_eBina);
-  //     D3_TIGC(tsH_Bina,E.Cal_eBina);
-  //     if( E.EarlyTrig_VT_N>0){
-  // 	H.Fill("EcalvsR",TAcc,E.Cal_eBina);
-  //    }
-  //   }	
-  //     if(Post_DS) {
-  // 	D3_PE(tsPE_DS,Ecal_DS);
-  // 	D3_TIGC(tsH_DS,Ecal_DS);
-  // 	if( E.EarlyTrig_VT_N>0){
-  // 	H.Fill("EcalDSvsR",TAcc,Ecal_DS);
-  // 	}
-  //     }
-  //     	D3_PE(tsPE_PH,Ecal_PH);
-  // 	D3_TIGC(tsH_PH,Ecal_PH);
-  // 	D3_PE(tsPE_PHDS,Ecal_PHDS);
-  // 	D3_TIGC(tsH_PHDS,Ecal_PHDS);
-  // 	if( E.EarlyTrig_VT_N>0){
-  // 	H.Fill("Ecal_PHvsR",TAcc,Ecal_PH);
-  // 	H.Fill("Ecal_PHDSvsR",TAcc,Ecal_PHDS);
-  // 	}
-		
-  // }// all cuts
-
 
    bool nominal_cuts_L1= (
 
@@ -827,6 +773,15 @@ bool Analysis2010_2::Process(EventClass &E, HistogramFactory &H)
 
        );
 
+   bool cuts_WC3_wPion= (
+
+       data_integrity &&  // 1 & 2
+       trigger && // 3 & 4
+       WC12 &&// 5
+       WC3  // 5
+
+       );
+
    bool cuts_B1B2_pileup= (
 
        data_integrity &&  // 1 & 2
@@ -882,8 +837,6 @@ bool Analysis2010_2::Process(EventClass &E, HistogramFactory &H)
 
        );
 
-   H.Fill("WC3_0",TAcc,1.0);
-
    H.Fill("PileupB1_1_0",E.B1_1_WF_Q[0]/E.B1_1_WF_Qw[0],1.0);
    H.Fill("PileupB1_2_0",E.B1_2_WF_Q[0]/E.B1_2_WF_Qw[0],1.0);
    H.Fill("PileupB1_3_0",E.B1_3_WF_Q[0]/E.B1_3_WF_Qw[0],1.0);
@@ -894,9 +847,6 @@ bool Analysis2010_2::Process(EventClass &E, HistogramFactory &H)
    H.Fill("PileupB2_3_0",E.B2_3_WF_Q[0]/E.B2_3_WF_Qw[0],1.0);
    H.Fill("PileupB2_4_0",E.B2_4_WF_Q[0]/E.B2_4_WF_Qw[0],1.0);
 
-
-   if(cuts_WC12)
-     H.Fill("WC3",TAcc,1.0);
 
    if(cuts_WC3){
 
@@ -911,6 +861,35 @@ bool Analysis2010_2::Process(EventClass &E, HistogramFactory &H)
      H.Fill("PileupB2_4",E.B2_4_WF_Q[0]/E.B2_4_WF_Qw[0],1.0);
 
    }
+
+   if(cuts_WC3_wPion){
+
+     H.Fill("PileupB1_1_t",E.B1_1_WF_Q[0]/E.B1_1_WF_Qw[0],1.0);
+     H.Fill("PileupB1_2_t",E.B1_2_WF_Q[0]/E.B1_2_WF_Qw[0],1.0);
+     H.Fill("PileupB1_3_t",E.B1_3_WF_Q[0]/E.B1_3_WF_Qw[0],1.0);
+     H.Fill("PileupB1_4_t",E.B1_4_WF_Q[0]/E.B1_4_WF_Qw[0],1.0);
+
+     H.Fill("PileupB2_1_t",E.B2_1_WF_Q[0]/E.B2_1_WF_Qw[0],1.0);
+     H.Fill("PileupB2_2_t",E.B2_2_WF_Q[0]/E.B2_2_WF_Qw[0],1.0);
+     H.Fill("PileupB2_3_t",E.B2_3_WF_Q[0]/E.B2_3_WF_Qw[0],1.0);
+     H.Fill("PileupB2_4_t",E.B2_4_WF_Q[0]/E.B2_4_WF_Qw[0],1.0);
+
+   }
+
+   H.Fill("WC12_proTg_0",trkWC12.tx*zPro+trkWC12.x0,trkWC12.ty*zPro+trkWC12.y0,1.0); // From proot
+   H.Fill("S12_proTg_0",trkS12.tx*zPro+trkS12.x0,trkS12.ty*zPro+trkS12.y0,1.0); // From proot
+   H.Fill("WCS3_proTg_0",trkWC3.tx*zPro+trkWC3.x0,trkWC3.ty*zPro+trkWC3.y0,1.0); // From proot
+
+   if(cuts_WC12){
+
+     H.Fill("WC12_proTg",trkWC12.tx*zPro+trkWC12.x0,trkWC12.ty*zPro+trkWC12.y0,1.0); // From proot
+     H.Fill("S12_proTg",trkS12.tx*zPro+trkS12.x0,trkS12.ty*zPro+trkS12.y0,1.0); // From proot
+     H.Fill("WCS3_proTg",trkWC3.tx*zPro+trkWC3.x0,trkWC3.ty*zPro+trkWC3.y0,1.0); // From proot
+     
+   }
+
+
+   
    
   return true;
   
