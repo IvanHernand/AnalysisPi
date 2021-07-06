@@ -104,43 +104,22 @@ bool Analysis2010_2::Init(EventClass &E, HistogramFactory &H, ConfigFile &Conf, 
 	CB		        = Conf.read<double>("Analysis2010/CB");
 	TrReco.Init(Conf);
 
-          H.DefineTH2D( "EnergySpectrum","WC12_proTg","", 200, -30.0,30.0,200,-30.0,30.0);((TH2D*)gDirectory->Get("WC12_proTg"))->Sumw2();
-	  
-          H.DefineTH2D( "EnergySpectrum","S12_proTg","", 200, -30.0,30.0,200,-30.0,30.0);((TH2D*)gDirectory->Get("S12_proTg"))->Sumw2();
+        H.DefineTH2D( "EnergySpectrum","T1Pileup","", 400,0.0,200.0,400,0.0,40.0);((TH2D*)gDirectory->Get("T1Pileup"))->Sumw2();
+        H.DefineTH2D( "EnergySpectrum","T1Pileup_0","", 400,0.0,200.0,400,0.0,40.0);((TH2D*)gDirectory->Get("T1Pileup_0"))->Sumw2();
+	H.DefineTH2D( "EnergySpectrum","T1Pileup_t","", 400,0.0,200.0,400,0.0,40.0);((TH2D*)gDirectory->Get("T1Pileup_t"))->Sumw2();
 
-          H.DefineTH2D( "EnergySpectrum","WCS3_proTg","", 200, -30.0,30.0,200,-30.0,30.0);((TH2D*)gDirectory->Get("WCS3_proTg"))->Sumw2();
+	H.DefineTH2D( "EnergySpectrum","Tg_Zv_1","", 100,-50.0,50.0,10,0,100);((TH2D*)gDirectory->Get("Tg_Zv_1"))->Sumw2();
+	H.DefineTH2D( "EnergySpectrum","Tg_Zv_2","", 100,-50.0,50.0,10,0,100);((TH2D*)gDirectory->Get("Tg_Zv_2"))->Sumw2();
+	H.DefineTH2D( "EnergySpectrum","Tg_Zv_3","", 100,-50.0,50.0,10,0,100);((TH2D*)gDirectory->Get("Tg_Zv_3"))->Sumw2();
 
-	  H.DefineTH2D( "EnergySpectrum","WC12_proTg_0","", 200, -30.0,30.0,200,-30.0,30.0);((TH2D*)gDirectory->Get("WC12_proTg_0"))->Sumw2();
-	  
-          H.DefineTH2D( "EnergySpectrum","S12_proTg_0","", 200, -30.0,30.0,200,-30.0,30.0);((TH2D*)gDirectory->Get("S12_proTg_0"))->Sumw2();
+	H.DefineTH2D( "EnergySpectrum","Tg_Zv_1_0","", 100,-50.0,50.0,10,0,100);((TH2D*)gDirectory->Get("Tg_Zv_1_0"))->Sumw2();
+	H.DefineTH2D( "EnergySpectrum","Tg_Zv_2_0","", 100,-50.0,50.0,10,0,100);((TH2D*)gDirectory->Get("Tg_Zv_2_0"))->Sumw2();
+	H.DefineTH2D( "EnergySpectrum","Tg_Zv_3_0","", 100,-50.0,50.0,10,0,100);((TH2D*)gDirectory->Get("Tg_Zv_3_0"))->Sumw2();
 
-          H.DefineTH2D( "EnergySpectrum","WCS3_proTg_0","", 200, -30.0,30.0,200,-30.0,30.0);((TH2D*)gDirectory->Get("WCS3_proTg_0"))->Sumw2();
-
-	for(int i=1; i<=4; i++){
-
-	  // B1B2Pileup
-
-	  sprintf(file_temp,"PileupB1_%i_0",i);
-          H.DefineTH1D( "EnergySpectrum",file_temp,"", 400,0.0,2.0);((TH1D*)gDirectory->Get(file_temp))->Sumw2();
-
-	  sprintf(file_temp,"PileupB1_%i",i);
-          H.DefineTH1D( "EnergySpectrum",file_temp,"", 400,0.0,2.0);((TH1D*)gDirectory->Get(file_temp))->Sumw2();
-
-	  sprintf(file_temp,"PileupB1_%i_t",i);
-          H.DefineTH1D( "EnergySpectrum",file_temp,"", 400,0.0,2.0);((TH1D*)gDirectory->Get(file_temp))->Sumw2();
-
-	  // B2
-
-	  sprintf(file_temp,"PileupB2_%i_0",i);
-          H.DefineTH1D( "EnergySpectrum",file_temp,"", 400,0.0,2.0);((TH1D*)gDirectory->Get(file_temp))->Sumw2();
-
-	  sprintf(file_temp,"PileupB2_%i",i);
-          H.DefineTH1D( "EnergySpectrum",file_temp,"", 400,0.0,2.0);((TH1D*)gDirectory->Get(file_temp))->Sumw2();
-
-	  sprintf(file_temp,"PileupB2_%i_t",i);
-          H.DefineTH1D( "EnergySpectrum",file_temp,"", 400,0.0,2.0);((TH1D*)gDirectory->Get(file_temp))->Sumw2();
-
-	}
+	H.DefineTH2D( "EnergySpectrum","Tg_Zv_1_p","", 100,-50.0,50.0,10,0,100);((TH2D*)gDirectory->Get("Tg_Zv_1_p"))->Sumw2();
+	H.DefineTH2D( "EnergySpectrum","Tg_Zv_2_p","", 100,-50.0,50.0,10,0,100);((TH2D*)gDirectory->Get("Tg_Zv_2_p"))->Sumw2();
+	H.DefineTH2D( "EnergySpectrum","Tg_Zv_3_p","", 100,-50.0,50.0,10,0,100);((TH2D*)gDirectory->Get("Tg_Zv_3_p"))->Sumw2();
+		
 		
     return true;
 }
@@ -153,7 +132,6 @@ bool Analysis2010_2::Process(EventClass &E, HistogramFactory &H)
   
   PTrack& trkWC12 = E.trks[0].GetTrk(0);
   PTrack& trkS12  = E.trks[1].GetTrk(0); 
-  PTrack& trkWC3  = E.trks[2].GetTrk(0);
   
   //////////////////////////////////////////////////////////////////////////////////
 
@@ -261,6 +239,9 @@ bool Analysis2010_2::Process(EventClass &E, HistogramFactory &H)
   if(E.runNo>=10025 && E.runNo<25750)   {
       x_low = -18;  x_high = 22;
       y_low = -15;  y_high = 19;
+      QcutB1_min = 0.78; QcutB1_max = 0.98;
+      QcutB2_min = 0.74; QcutB2_max = 0.96;
+      
       // prompt_low = -4399; prompt_high = -4380; //T1prompt, TrCons
       // av[0] = 11.9; av[1] = 13.6; av[2] = 12.6; av[3] = 13.6; //T1prompt
       // trighit_cutValue1 = 1010; trighit_cutValue2 = 1040;
@@ -354,6 +335,8 @@ bool Analysis2010_2::Process(EventClass &E, HistogramFactory &H)
   double Tg = 999;
   int isave = 0;
   double Zv = 999.;
+  double Zv1 = 999.;
+  double Zv2 = 999.;
   double S3WC3X0 = 999.;
   int Ntrk = TrReco.trks[2]->GetN();
   if (Ntrk>0){
@@ -371,15 +354,30 @@ bool Analysis2010_2::Process(EventClass &E, HistogramFactory &H)
       } 
     }
        PTrack& trkDw = TrReco.trks[2]->GetTrk(isave);
+       PTrack& trkWCS3  = E.trks[2].GetTrk(isave);
+       PTrack& trkWC3  = E.trks[2].GetTrk(0);
        S3WC3X0 = trkDw.x0;
    int Ntrk12 = TrReco.trks[1]->GetN();
    if(Ntrk12>0) {
-       PTrack& trkS12 = TrReco.trks[1]->GetTrk(0);    
+       PTrack& trkS12 = TrReco.trks[1]->GetTrk(0);
+       PTrack& trkSS12  = E.trks[1].GetTrk(0); 
        Zv = -((trkS12.x0-trkDw.x0)*(trkS12.tx-trkDw.tx)+
 		 (trkS12.y0-trkDw.y0)*(trkS12.ty-trkDw.ty))/
       ((trkS12.tx-trkDw.tx)*(trkS12.tx-trkDw.tx)+
        (trkS12.ty-trkDw.ty)*(trkS12.ty-trkDw.ty));
 	phi = atan2(WC3Y,WC3X);
+
+	// Test Zv for 2009 Ivan
+
+	Zv1 = -((trkSS12.x0-trkWCS3.x0)*(trkSS12.tx-trkWCS3.tx)+
+		 (trkSS12.y0-trkWCS3.y0)*(trkSS12.ty-trkWCS3.ty))/
+      ((trkSS12.tx-trkWCS3.tx)*(trkSS12.tx-trkWCS3.tx)+
+       (trkSS12.ty-trkWCS3.ty)*(trkSS12.ty-trkWCS3.ty));
+
+        Zv2 = -((trkSS12.x0-trkWC3.x0)*(trkSS12.tx-trkWC3.tx)+
+		 (trkSS12.y0-trkWC3.y0)*(trkSS12.ty-trkWC3.ty))/
+      ((trkSS12.tx-trkWC3.tx)*(trkSS12.tx-trkWC3.tx)+
+       (trkSS12.ty-trkWC3.ty)*(trkSS12.ty-trkWC3.ty));
    }
   }
     
@@ -451,7 +449,7 @@ bool Analysis2010_2::Process(EventClass &E, HistogramFactory &H)
     QcutB2_min<E.B2_1_WF_Q[0]/E.B2_1_WF_Qw[0] && E.B2_1_WF_Q[0]/E.B2_1_WF_Qw[0]<QcutB2_max &&
     QcutB2_min<E.B2_2_WF_Q[0]/E.B2_2_WF_Qw[0] && E.B2_2_WF_Q[0]/E.B2_2_WF_Qw[0]<QcutB2_max &&
     QcutB2_min<E.B2_3_WF_Q[0]/E.B2_3_WF_Qw[0] && E.B2_3_WF_Q[0]/E.B2_3_WF_Qw[0]<QcutB2_max &&
-    QcutB2_min<E.B2_4_WF_Q[0]/E.B2_4_WF_Qw[0] && E.B2_4_WF_Q[0]/E.B2_4_WF_Qw[0]<QcutB2_max;
+    QcutB1_min<E.B2_4_WF_Q[0]/E.B2_4_WF_Qw[0] && E.B2_4_WF_Q[0]/E.B2_4_WF_Qw[0]<QcutB1_max;
   bool T1_chi2 = 
     E.T1_1_WF_Chi2[0]>=0 && E.T1_2_WF_Chi2[0]>=0 && E.T1_3_WF_Chi2[0]>=0 && E.T1_4_WF_Chi2[0]>=0;
   bool B1_chi2 = E.B1_1_WF_Chi2[0]>=0 && E.B1_2_WF_Chi2[0]>=0 && E.B1_3_WF_Chi2[0]>=0 && E.B1_4_WF_Chi2[0]>=0;
@@ -837,59 +835,30 @@ bool Analysis2010_2::Process(EventClass &E, HistogramFactory &H)
 
        );
 
-   H.Fill("PileupB1_1_0",E.B1_1_WF_Q[0]/E.B1_1_WF_Qw[0],1.0);
-   H.Fill("PileupB1_2_0",E.B1_2_WF_Q[0]/E.B1_2_WF_Qw[0],1.0);
-   H.Fill("PileupB1_3_0",E.B1_3_WF_Q[0]/E.B1_3_WF_Qw[0],1.0);
-   H.Fill("PileupB1_4_0",E.B1_4_WF_Q[0]/E.B1_4_WF_Qw[0],1.0);
+   H.Fill("T1Pileup_0",Afitavg1,qfullavg1/Afitavg1,1.0);
 
-   H.Fill("PileupB2_1_0",E.B2_1_WF_Q[0]/E.B2_1_WF_Qw[0],1.0);
-   H.Fill("PileupB2_2_0",E.B2_2_WF_Q[0]/E.B2_2_WF_Qw[0],1.0);
-   H.Fill("PileupB2_3_0",E.B2_3_WF_Q[0]/E.B2_3_WF_Qw[0],1.0);
-   H.Fill("PileupB2_4_0",E.B2_4_WF_Q[0]/E.B2_4_WF_Qw[0],1.0);
+   if(cuts_WC3)
+     H.Fill("T1Pileup_t",Afitavg1,qfullavg1/Afitavg1,1.0);
 
+   if(cuts_B1B2_pileup)
+     H.Fill("T1Pileup",Afitavg1,qfullavg1/Afitavg1,1.0);
 
-   if(cuts_WC3){
+   H.Fill("Tg_Zv_1_0",Zv,TAcc,1.0);
+   H.Fill("Tg_Zv_2_0",Zv1,TAcc,1.0);
+   H.Fill("Tg_Zv_3_0",Zv2,TAcc,1.0);
 
-     H.Fill("PileupB1_1",E.B1_1_WF_Q[0]/E.B1_1_WF_Qw[0],1.0);
-     H.Fill("PileupB1_2",E.B1_2_WF_Q[0]/E.B1_2_WF_Qw[0],1.0);
-     H.Fill("PileupB1_3",E.B1_3_WF_Q[0]/E.B1_3_WF_Qw[0],1.0);
-     H.Fill("PileupB1_4",E.B1_4_WF_Q[0]/E.B1_4_WF_Qw[0],1.0);
-
-     H.Fill("PileupB2_1",E.B2_1_WF_Q[0]/E.B2_1_WF_Qw[0],1.0);
-     H.Fill("PileupB2_2",E.B2_2_WF_Q[0]/E.B2_2_WF_Qw[0],1.0);
-     H.Fill("PileupB2_3",E.B2_3_WF_Q[0]/E.B2_3_WF_Qw[0],1.0);
-     H.Fill("PileupB2_4",E.B2_4_WF_Q[0]/E.B2_4_WF_Qw[0],1.0);
-
+   if(cuts_pion_trigger){
+     H.Fill("Tg_Zv_1_p",Zv,TAcc,1.0);
+     H.Fill("Tg_Zv_2_p",Zv1,TAcc,1.0);
+     H.Fill("Tg_Zv_3_p",Zv2,TAcc,1.0);
    }
 
-   if(cuts_WC3_wPion){
-
-     H.Fill("PileupB1_1_t",E.B1_1_WF_Q[0]/E.B1_1_WF_Qw[0],1.0);
-     H.Fill("PileupB1_2_t",E.B1_2_WF_Q[0]/E.B1_2_WF_Qw[0],1.0);
-     H.Fill("PileupB1_3_t",E.B1_3_WF_Q[0]/E.B1_3_WF_Qw[0],1.0);
-     H.Fill("PileupB1_4_t",E.B1_4_WF_Q[0]/E.B1_4_WF_Qw[0],1.0);
-
-     H.Fill("PileupB2_1_t",E.B2_1_WF_Q[0]/E.B2_1_WF_Qw[0],1.0);
-     H.Fill("PileupB2_2_t",E.B2_2_WF_Q[0]/E.B2_2_WF_Qw[0],1.0);
-     H.Fill("PileupB2_3_t",E.B2_3_WF_Q[0]/E.B2_3_WF_Qw[0],1.0);
-     H.Fill("PileupB2_4_t",E.B2_4_WF_Q[0]/E.B2_4_WF_Qw[0],1.0);
-
+   if(cuts_B1B2_pileup){
+     H.Fill("Tg_Zv_1",Zv,TAcc,1.0);
+     H.Fill("Tg_Zv_2",Zv1,TAcc,1.0);
+     H.Fill("Tg_Zv_3",Zv2,TAcc,1.0);
    }
-
-   H.Fill("WC12_proTg_0",trkWC12.tx*zPro+trkWC12.x0,trkWC12.ty*zPro+trkWC12.y0,1.0); // From proot
-   H.Fill("S12_proTg_0",trkS12.tx*zPro+trkS12.x0,trkS12.ty*zPro+trkS12.y0,1.0); // From proot
-   H.Fill("WCS3_proTg_0",trkWC3.tx*zPro+trkWC3.x0,trkWC3.ty*zPro+trkWC3.y0,1.0); // From proot
-
-   if(cuts_WC12){
-
-     H.Fill("WC12_proTg",trkWC12.tx*zPro+trkWC12.x0,trkWC12.ty*zPro+trkWC12.y0,1.0); // From proot
-     H.Fill("S12_proTg",trkS12.tx*zPro+trkS12.x0,trkS12.ty*zPro+trkS12.y0,1.0); // From proot
-     H.Fill("WCS3_proTg",trkWC3.tx*zPro+trkWC3.x0,trkWC3.ty*zPro+trkWC3.y0,1.0); // From proot
-     
-   }
-
-
-   
+ 
    
   return true;
   
