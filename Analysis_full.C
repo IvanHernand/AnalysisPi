@@ -104,21 +104,10 @@ bool Analysis2010_2::Init(EventClass &E, HistogramFactory &H, ConfigFile &Conf, 
 	CB		        = Conf.read<double>("Analysis2010/CB");
 	TrReco.Init(Conf);
 
-        H.DefineTH2D( "EnergySpectrum","T1Pileup","", 400,0.0,200.0,400,0.0,40.0);((TH2D*)gDirectory->Get("T1Pileup"))->Sumw2();
-        H.DefineTH2D( "EnergySpectrum","T1Pileup_0","", 400,0.0,200.0,400,0.0,40.0);((TH2D*)gDirectory->Get("T1Pileup_0"))->Sumw2();
-	H.DefineTH2D( "EnergySpectrum","T1Pileup_t","", 400,0.0,200.0,400,0.0,40.0);((TH2D*)gDirectory->Get("T1Pileup_t"))->Sumw2();
+        H.DefineTH2D( "EnergySpectrum","Proton_0","", 500,0.0,100.0,500,0.0,10.0);((TH2D*)gDirectory->Get(file_temp))->Sumw2();
+        H.DefineTH2D( "EnergySpectrum","Proton_1","", 500,0.0,100.0,500,0.0,10.0);((TH2D*)gDirectory->Get(file_temp))->Sumw2();
+	H.DefineTH2D( "EnergySpectrum","Proton_2","", 500,0.0,100.0,500,0.0,10.0);((TH2D*)gDirectory->Get(file_temp))->Sumw2();
 
-	H.DefineTH2D( "EnergySpectrum","Tg_Zv_1","", 100,-50.0,50.0,10,0,100);((TH2D*)gDirectory->Get("Tg_Zv_1"))->Sumw2();
-	H.DefineTH2D( "EnergySpectrum","Tg_Zv_2","", 100,-50.0,50.0,10,0,100);((TH2D*)gDirectory->Get("Tg_Zv_2"))->Sumw2();
-	H.DefineTH2D( "EnergySpectrum","Tg_Zv_3","", 100,-50.0,50.0,10,0,100);((TH2D*)gDirectory->Get("Tg_Zv_3"))->Sumw2();
-
-	H.DefineTH2D( "EnergySpectrum","Tg_Zv_1_0","", 100,-50.0,50.0,10,0,100);((TH2D*)gDirectory->Get("Tg_Zv_1_0"))->Sumw2();
-	H.DefineTH2D( "EnergySpectrum","Tg_Zv_2_0","", 100,-50.0,50.0,10,0,100);((TH2D*)gDirectory->Get("Tg_Zv_2_0"))->Sumw2();
-	H.DefineTH2D( "EnergySpectrum","Tg_Zv_3_0","", 100,-50.0,50.0,10,0,100);((TH2D*)gDirectory->Get("Tg_Zv_3_0"))->Sumw2();
-
-	H.DefineTH2D( "EnergySpectrum","Tg_Zv_1_p","", 100,-50.0,50.0,10,0,100);((TH2D*)gDirectory->Get("Tg_Zv_1_p"))->Sumw2();
-	H.DefineTH2D( "EnergySpectrum","Tg_Zv_2_p","", 100,-50.0,50.0,10,0,100);((TH2D*)gDirectory->Get("Tg_Zv_2_p"))->Sumw2();
-	H.DefineTH2D( "EnergySpectrum","Tg_Zv_3_p","", 100,-50.0,50.0,10,0,100);((TH2D*)gDirectory->Get("Tg_Zv_3_p"))->Sumw2();
 		
 		
     return true;
@@ -462,7 +451,17 @@ bool Analysis2010_2::Process(EventClass &E, HistogramFactory &H)
   //T1 pileup cut
   bool T1Pileup = (E.T1_1_WF_N==1 || E.T1_2_WF_N==1 || E.T1_3_WF_N==1 || E.T1_4_WF_N==1) || 
     (qfullavg1 / Afitavg1 <= 7.8 + 1.17e-4*Afitavg1*Afitavg1-2.38e-3*Afitavg1);
-    bool simpleT1Pileup = E.T1_1_WF_N == 1 || E.T1_2_WF_N == 1 || E.T1_3_WF_N == 1 || E.T1_4_WF_N == 1;
+
+  double cutthresh;
+  if(Afitavg1 < 76)
+    cutthresh = 7.6;
+  else
+    cutthresh = 0.0169∗Afitavg1 + 7.6;
+  
+  bool T1Pileup_v2 = (E.T1_1_WF_N==1 || E.T1_2_WF_N==1 || E.T1_3_WF_N==1 || E.T1_4_WF_N==1) || 
+    (qfullavg1 / Afitavg1 <= cutthresh);
+
+  bool simpleT1Pileup = E.T1_1_WF_N == 1 || E.T1_2_WF_N == 1 || E.T1_3_WF_N == 1 || E.T1_4_WF_N == 1;
 
     bool B1prompt;
 
@@ -804,6 +803,22 @@ bool Analysis2010_2::Process(EventClass &E, HistogramFactory &H)
 
        );
 
+   bool cuts_PrePileup_2= (
+
+       data_integrity &&  // 1 & 2
+       pion_trigger && // 3 & 4
+       WC12 &&// 5
+       WC3 && // 5
+       B1B2_pileup &&
+       T1Pileup_v2 &&
+       B1_chi2 &&
+       T1_chi2 &&
+       PrePileup
+
+       );
+
+
+
    bool cuts_proton = (
 
        data_integrity &&  // 1 & 2
@@ -835,29 +850,15 @@ bool Analysis2010_2::Process(EventClass &E, HistogramFactory &H)
 
        );
 
-   H.Fill("T1Pileup_0",Afitavg1,qfullavg1/Afitavg1,1.0);
+   H.Fill("Proton_0",E.Cal_eBina,min4,1.0);
 
-   if(cuts_WC3)
-     H.Fill("T1Pileup_t",Afitavg1,qfullavg1/Afitavg1,1.0);
+   if(cuts_PrePileup)
+     H.Fill("Proton_1",E.Cal_eBina,min4,1.0);
 
-   if(cuts_B1B2_pileup)
-     H.Fill("T1Pileup",Afitavg1,qfullavg1/Afitavg1,1.0);
+   if(cuts_PrePileup_2)
+     H.Fill("Proton_2",E.Cal_eBina,min4,1.0);
 
-   H.Fill("Tg_Zv_1_0",Zv,TAcc,1.0);
-   H.Fill("Tg_Zv_2_0",Zv1,TAcc,1.0);
-   H.Fill("Tg_Zv_3_0",Zv2,TAcc,1.0);
-
-   if(cuts_pion_trigger){
-     H.Fill("Tg_Zv_1_p",Zv,TAcc,1.0);
-     H.Fill("Tg_Zv_2_p",Zv1,TAcc,1.0);
-     H.Fill("Tg_Zv_3_p",Zv2,TAcc,1.0);
-   }
-
-   if(cuts_B1B2_pileup){
-     H.Fill("Tg_Zv_1",Zv,TAcc,1.0);
-     H.Fill("Tg_Zv_2",Zv1,TAcc,1.0);
-     H.Fill("Tg_Zv_3",Zv2,TAcc,1.0);
-   }
+      
  
    
   return true;
