@@ -104,9 +104,15 @@ bool Analysis2010_2::Init(EventClass &E, HistogramFactory &H, ConfigFile &Conf, 
 	CB		        = Conf.read<double>("Analysis2010/CB");
 	TrReco.Init(Conf);
 
-        H.DefineTH2D( "EnergySpectrum","Proton_0","", 500,0.0,100.0,500,0.0,10.0);((TH2D*)gDirectory->Get(file_temp))->Sumw2();
-        H.DefineTH2D( "EnergySpectrum","Proton_1","", 500,0.0,100.0,500,0.0,10.0);((TH2D*)gDirectory->Get(file_temp))->Sumw2();
-	H.DefineTH2D( "EnergySpectrum","Proton_2","", 500,0.0,100.0,500,0.0,10.0);((TH2D*)gDirectory->Get(file_temp))->Sumw2();
+        H.DefineTH2D( "EnergySpectrum","Tg_Zv_0","", 100,-50.0,50.0,10,0,100);((TH2D*)gDirectory->Get("Tg_Zv_0"))->Sumw2();
+	H.DefineTH2D( "EnergySpectrum","Tg_Zv_1","", 100,-50.0,50.0,10,0,100);((TH2D*)gDirectory->Get("Tg_Zv_1"))->Sumw2();
+	H.DefineTH2D( "EnergySpectrum","Tg_Zv_2","", 100,-50.0,50.0,10,0,100);((TH2D*)gDirectory->Get("Tg_Zv_2"))->Sumw2();
+	H.DefineTH2D( "EnergySpectrum","Tg_Zv_3","", 100,-50.0,50.0,10,0,100);((TH2D*)gDirectory->Get("Tg_Zv_3"))->Sumw2();
+	H.DefineTH2D( "EnergySpectrum","Tg_Zv_4","", 100,-50.0,50.0,10,0,100);((TH2D*)gDirectory->Get("Tg_Zv_4"))->Sumw2();
+	H.DefineTH2D( "EnergySpectrum","Tg_Zv_5","", 100,-50.0,50.0,10,0,100);((TH2D*)gDirectory->Get("Tg_Zv_5"))->Sumw2();
+	H.DefineTH2D( "EnergySpectrum","Tg_Zv_6","", 100,-50.0,50.0,10,0,100);((TH2D*)gDirectory->Get("Tg_Zv_6"))->Sumw2();
+	H.DefineTH2D( "EnergySpectrum","Tg_Zv_7","", 100,-50.0,50.0,10,0,100);((TH2D*)gDirectory->Get("Tg_Zv_7"))->Sumw2();
+	//H.DefineTH2D( "EnergySpectrum","Tg_Zv_8","", 100,-50.0,50.0,10,0,100);((TH2D*)gDirectory->Get("Tg_Zv_8"))->Sumw2();
 
 		
 		
@@ -452,14 +458,15 @@ bool Analysis2010_2::Process(EventClass &E, HistogramFactory &H)
   bool T1Pileup = (E.T1_1_WF_N==1 || E.T1_2_WF_N==1 || E.T1_3_WF_N==1 || E.T1_4_WF_N==1) || 
     (qfullavg1 / Afitavg1 <= 7.8 + 1.17e-4*Afitavg1*Afitavg1-2.38e-3*Afitavg1);
 
-  double cutthresh;
-  if(Afitavg1 < 76)
-    cutthresh = 7.6;
-  else
-    cutthresh = 0.0169∗Afitavg1 + 7.6;
+  // double cutthresh;
   
-  bool T1Pileup_v2 = (E.T1_1_WF_N==1 || E.T1_2_WF_N==1 || E.T1_3_WF_N==1 || E.T1_4_WF_N==1) || 
-    (qfullavg1 / Afitavg1 <= cutthresh);
+  // if(Afitavg1 < 76)
+  //   cutthresh = 7.6;
+  // else
+  //   cutthresh = 0.0169∗Afitavg1 + 7.6;
+  
+  // bool T1Pileup_v2 = (E.T1_1_WF_N==1 || E.T1_2_WF_N==1 || E.T1_3_WF_N==1 || E.T1_4_WF_N==1) || 
+  //   (qfullavg1 / Afitavg1 <= cutthresh);
 
   bool simpleT1Pileup = E.T1_1_WF_N == 1 || E.T1_2_WF_N == 1 || E.T1_3_WF_N == 1 || E.T1_4_WF_N == 1;
 
@@ -746,14 +753,14 @@ bool Analysis2010_2::Process(EventClass &E, HistogramFactory &H)
 
        );
 
-   bool cuts_pion_trigger= (
+   bool cuts_pion_trigger= ( // data_integrity 1, pion_trigger 2
 			    
        data_integrity &&  // 1 & 2
        pion_trigger
 
        );
 
-   bool cuts_WC12= (
+   bool cuts_WC12= ( //3
 
        data_integrity &&  // 1 & 2
        pion_trigger && // 3 & 4
@@ -761,7 +768,7 @@ bool Analysis2010_2::Process(EventClass &E, HistogramFactory &H)
 
        );
 
-   bool cuts_WC3= (
+   bool cuts_WC3= ( //4
 
        data_integrity &&  // 1 & 2
        pion_trigger && // 3 & 4
@@ -770,7 +777,7 @@ bool Analysis2010_2::Process(EventClass &E, HistogramFactory &H)
 
        );
 
-   bool cuts_WC3_wPion= (
+   bool cuts_WC3_wPion= ( 
 
        data_integrity &&  // 1 & 2
        trigger && // 3 & 4
@@ -779,7 +786,7 @@ bool Analysis2010_2::Process(EventClass &E, HistogramFactory &H)
 
        );
 
-   bool cuts_B1B2_pileup= (
+   bool cuts_B1B2_pileup= (// 5
 
        data_integrity &&  // 1 & 2
        pion_trigger && // 3 & 4
@@ -789,7 +796,7 @@ bool Analysis2010_2::Process(EventClass &E, HistogramFactory &H)
 
        );
 
-   bool cuts_PrePileup= (
+   bool cuts_PrePileup= ( // 6
 
        data_integrity &&  // 1 & 2
        pion_trigger && // 3 & 4
@@ -803,24 +810,9 @@ bool Analysis2010_2::Process(EventClass &E, HistogramFactory &H)
 
        );
 
-   bool cuts_PrePileup_2= (
-
-       data_integrity &&  // 1 & 2
-       pion_trigger && // 3 & 4
-       WC12 &&// 5
-       WC3 && // 5
-       B1B2_pileup &&
-       T1Pileup_v2 &&
-       B1_chi2 &&
-       T1_chi2 &&
-       PrePileup
-
-       );
 
 
-
-   bool cuts_proton = (
-
+   bool cuts_proton = ( // 7
        data_integrity &&  // 1 & 2
        pion_trigger && // 3 & 4
        WC12 &&// 5
@@ -831,10 +823,9 @@ bool Analysis2010_2::Process(EventClass &E, HistogramFactory &H)
        T1_chi2 &&
        PrePileup &&
        proton
-
        );
 
-   bool cuts_B1prompt = (
+   bool cuts_B1prompt = ( // 8
 
        data_integrity &&  // 1 & 2
        pion_trigger && // 3 & 4
@@ -850,14 +841,28 @@ bool Analysis2010_2::Process(EventClass &E, HistogramFactory &H)
 
        );
 
-   H.Fill("Proton_0",E.Cal_eBina,min4,1.0);
+   H.Fill("Tg_Zv_0",Zv,E.Cal_eTg,1.0);
+
+   if(data_integrity)
+     H.Fill("Tg_Zv_1",Zv,E.Cal_eTg,1.0);
+
+   if(cuts_pion_trigger)
+     H.Fill("Tg_Zv_2",Zv,E.Cal_eTg,1.0);
+
+   if(cuts_WC12)
+     H.Fill("Tg_Zv_3",Zv,E.Cal_eTg,1.0);
+
+   if(cuts_WC3)
+     H.Fill("Tg_Zv_4",Zv,E.Cal_eTg,1.0);
+
+   if(cuts_B1B2_pileup)
+     H.Fill("Tg_Zv_5",Zv,E.Cal_eTg,1.0);
 
    if(cuts_PrePileup)
-     H.Fill("Proton_1",E.Cal_eBina,min4,1.0);
+     H.Fill("Tg_Zv_6",Zv,E.Cal_eTg,1.0);
 
-   if(cuts_PrePileup_2)
-     H.Fill("Proton_2",E.Cal_eBina,min4,1.0);
-
+   if(cuts_proton)
+     H.Fill("Tg_Zv_7",Zv,E.Cal_eTg,1.0);
       
  
    
